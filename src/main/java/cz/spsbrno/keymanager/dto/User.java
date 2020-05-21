@@ -7,8 +7,10 @@ public class User {
     private String name;
     private String surname;
 
-    public User(Integer id) {
+    public User(Integer id, String name, String surname) {
         this.id = id;
+        this.name = name;
+        this.surname = surname;
     }
 
     public Integer getId() {
