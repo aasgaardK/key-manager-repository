@@ -17,23 +17,13 @@ public class TestController
     }
 
     @GetMapping("/hello")
-    public Person getHello(){
-        dao.createUser(new User(1, "n", "s"));
-        Person person = new Person();
-        person.name = "Kristinka";
-        return person;
+    public String getHello(){
+        User u = dao.createUser(new User(1, "n", "s"));
+        System.out.println(u);
+        return "test";
     }
-    class Person {
-        String name;
 
-        public String getName() {
-            return name;
-        }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
 
 
 }
