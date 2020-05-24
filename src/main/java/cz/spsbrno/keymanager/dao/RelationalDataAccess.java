@@ -1,5 +1,6 @@
 package cz.spsbrno.keymanager.dao;
 
+import cz.spsbrno.keymanager.dto.Key;
 import cz.spsbrno.keymanager.dto.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -34,5 +35,23 @@ public class RelationalDataAccess {
     public User getUserById(int id) {
         String query = "SELECT * FROM User WHERE User_ID = " + id;
         return jdbcTemplate.queryForObject(query, new UserRowMapper());
+    }
+
+    public Key createKey(Key key) {
+        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("Key")
+                .usingGeneratedKeyColumns("Key_ID");
+
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("Number", key.getNumber());
+        parameters.put("Borrowed", key.getBorrowed());
+
+        Number id = simpleJdbcInsert.executeAndReturnKey(parameters);
+
+        return getKeyById(id.intValue());
+    }
+
+    public Key getKeyById(int id) {
+        String query = "SELECT * FROM Key WHERE Key_ID = " + id;
+        return jdbcTemplate.queryForObject(query, new KeyRowMapper());
     }
 }
