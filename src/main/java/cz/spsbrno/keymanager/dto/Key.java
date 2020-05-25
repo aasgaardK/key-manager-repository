@@ -34,7 +34,7 @@ public class Key {
 
     public  Boolean getBorrowed() { return borrowed; }
 
-    public void setBorrowed() { this.borrowed = borrowed; }
+    public void setBorrowed(boolean borrowed) { this.borrowed = borrowed; }
 
     @Override
     public boolean equals(Object o) {

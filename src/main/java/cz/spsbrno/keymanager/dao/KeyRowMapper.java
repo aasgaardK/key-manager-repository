@@ -14,7 +14,7 @@ public class KeyRowMapper implements RowMapper<Key> {
 
         key.setId(rs.getInt("Key_ID"));
         key.setNumber(rs.getString("Number"));
-        key.setBorrowed(); /* tady mě to nefunguje, když chci dat rs.getBorrowed() */
+        key.setBorrowed(rs.getBoolean("Borrowed"));
 
         return key;
     }
