@@ -7,6 +7,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,12 +40,12 @@ public class RelationalDataAccess {
     }
 
     public Key createKey(Key key) {
-        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("Key")
-                .usingGeneratedKeyColumns("Key_ID");
+        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("Door_Key")
+                .usingGeneratedKeyColumns("Door_Key_ID");
 
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("Number", key.getNumber());
-        parameters.put("Borrowed", key.getBorrowed());
+        parameters.put("Code", key.getCode());
+
 
         Number id = simpleJdbcInsert.executeAndReturnKey(parameters);
 
@@ -51,7 +53,18 @@ public class RelationalDataAccess {
     }
 
     public Key getKeyById(int id) {
-        String query = "SELECT * FROM Key WHERE Key_ID = " + id;
+        String query = "SELECT * FROM Door_Key WHERE Door_Key_ID = " + id;
         return jdbcTemplate.queryForObject(query, new KeyRowMapper());
+    }
+
+    public void createBorrowingStatus(int userId, int keyId) {
+        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("Borrowing_Status")
+                .usingGeneratedKeyColumns("Borrowing_Status_ID");
+        Map<String, Object> params = new HashMap<>();
+        params.put("User_User_ID", userId);
+        params.put("Key_Key_ID", keyId);
+        //params.put("from", new Timestamp(System.currentTimeMillis()));
+
+        simpleJdbcInsert.execute(params);
     }
 }

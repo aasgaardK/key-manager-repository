@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/keys")
-
 public class KeyController {
     private final RelationalDataAccess dao;
 
@@ -18,7 +17,7 @@ public class KeyController {
     /*
        vytvori klic
      */
-    @PostMapping
+    @PostMapping("/create") //magic upravuje kod via anotace
     public Key createKey(@RequestBody Key key){
         return dao.createKey(key);
     }

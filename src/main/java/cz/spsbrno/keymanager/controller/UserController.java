@@ -33,4 +33,11 @@ public class UserController
         return user;
     }
 
+    @PostMapping("/{userId}/keys/borrow/{keyId}")
+    public void borrowKey(@PathVariable int userId, @PathVariable int keyId){
+        dao.createBorrowingStatus(userId, keyId);
+
+
+    }
+
 }

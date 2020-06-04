@@ -4,13 +4,11 @@ import java.util.Objects;
 
 public class Key {
     private Integer id;
-    private String number;
-    private boolean borrowed; //otázka jestli vůbec je vhodné, aby takový param byl? Nebude to duplicitní vzhledem k tab borrowing?
+    private String code;
 
-    public Key(Integer id, String number, boolean borrowed) {
+    public Key(Integer id, String code) {
         this.id = id;
-        this.number = number;
-        this.borrowed = borrowed;
+        this.code = code;
     }
 
     public Key() {
@@ -24,17 +22,16 @@ public class Key {
         this.id = id;
     }
 
-    public String getNumber() {
-        return number;
+    public String getCode() {
+        return code;
     }
 
-    public void setNumber(String name) {
-        this.number = name;
+    public void setCode(String name) {
+        this.code = name;
     }
 
-    public  Boolean getBorrowed() { return borrowed; }
 
-    public void setBorrowed(boolean borrowed) { this.borrowed = borrowed; }
+
 
     @Override
     public boolean equals(Object o) {
@@ -42,13 +39,12 @@ public class Key {
         if (!(o instanceof Key)) return false;
         Key key = (Key) o;
         return Objects.equals(getId(), key.getId()) &&
-                Objects.equals(getNumber(), key.getNumber()) &&
-                Objects.equals(getBorrowed(), key.getBorrowed());
+                Objects.equals(getCode(), key.getCode());
 
         }
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getNumber(), getBorrowed());
+        return Objects.hash(getId(), getCode());
     }
 
 

@@ -12,9 +12,9 @@ public class KeyRowMapper implements RowMapper<Key> {
     public Key mapRow(ResultSet rs, int rowNum) throws SQLException {
         Key key = new Key();
 
-        key.setId(rs.getInt("Key_ID"));
-        key.setNumber(rs.getString("Number"));
-        key.setBorrowed(rs.getBoolean("Borrowed"));
+        key.setId(rs.getInt("Door_Key_ID"));
+        key.setCode(rs.getString("Code"));
+
 
         return key;
     }
