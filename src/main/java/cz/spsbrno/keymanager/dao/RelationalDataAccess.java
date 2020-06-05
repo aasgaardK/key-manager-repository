@@ -1,5 +1,6 @@
 package cz.spsbrno.keymanager.dao;
 
+import cz.spsbrno.keymanager.dto.Door;
 import cz.spsbrno.keymanager.dto.Key;
 import cz.spsbrno.keymanager.dto.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +12,18 @@ import javax.sql.DataSource;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
+import java.time.LocalDate;
+
+import static java.time.LocalDate.*;
 
 @Repository
-public class RelationalDataAccess {
+public class RelationalDataAccess  {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
 
     /*
-        dostane user bez id jako parametr, vytvo59 ho v datab8i, a vr8t9 vztvorenz objekt y databyae i s id
+        dostane user bez id jako parametr, vytvoří ho v databázi, a vrátí vytvoreny objekt z databáze i s id
      */
     public User createUser(User user) {
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("User")
@@ -29,7 +33,7 @@ public class RelationalDataAccess {
         parameters.put("Name", user.getName());
         parameters.put("Surname", user.getSurname());
 
-        Number id = simpleJdbcInsert.executeAndReturnKey(parameters);
+        Number id = simpleJdbcInsert.executeAndReturnKey(parameters); //je to ok?
 
         return getUserById(id.intValue());
     }
@@ -64,7 +68,26 @@ public class RelationalDataAccess {
         params.put("User_User_ID", userId);
         params.put("Key_Key_ID", keyId);
         //params.put("from", new Timestamp(System.currentTimeMillis()));
+        //params.put("from", now());
 
         simpleJdbcInsert.execute(params);
+    }
+
+    public Door createDoor(Door door) {
+        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("Door")
+                .usingGeneratedKeyColumns("Door_ID");
+
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("Code", door.getCode());
+
+
+        Number id = simpleJdbcInsert.executeAndReturnKey(parameters); //je to ok? ne treba udelat neco jinak?
+
+        return getDoorById(id.intValue());
+    }
+
+    public Door getDoorById(int doorId) {
+        String query = "SELECT * FROM Door WHERE Door_ID = " + doorId;
+        return jdbcTemplate.queryForObject(query, new DoorRowMapper());
     }
 }

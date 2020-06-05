@@ -2,6 +2,7 @@ package cz.spsbrno.keymanager.controller;
 
 import cz.spsbrno.keymanager.dao.RelationalDataAccess;
 import cz.spsbrno.keymanager.dto.User;
+//nemam sem importovat jeste keymanager.dto.Key a Door?
 import org.springframework.web.bind.annotation.*;
 
 @RestController
