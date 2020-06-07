@@ -15,17 +15,11 @@ public class DoorController {
         this.dao = dao;
     }
 
-    /*
-       vytvori dvere
-     */
     @PostMapping("/create") //magic upravuje kod via anotace
     public Door createDoor(@RequestBody Door door){
         return dao.createDoor(door);
     }
 
-    /*
-        ziska dvere podle id
-     */
     @GetMapping("/{doorId}")
     public Door getDoorById(@PathVariable int doorId) {
         Door door = dao.getDoorById(doorId);

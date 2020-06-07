@@ -3,6 +3,7 @@ package cz.spsbrno.keymanager.dao;
 import cz.spsbrno.keymanager.dto.Door;
 import cz.spsbrno.keymanager.dto.Key;
 import cz.spsbrno.keymanager.dto.User;
+import cz.spsbrno.keymanager.exception.InvalidOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -21,10 +22,6 @@ public class RelationalDataAccess  {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-
-    /*
-        dostane user bez id jako parametr, vytvoří ho v databázi, a vrátí vytvoreny objekt z databáze i s id
-     */
     public User createUser(User user) {
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("User")
                 .usingGeneratedKeyColumns("User_ID");
@@ -33,7 +30,7 @@ public class RelationalDataAccess  {
         parameters.put("Name", user.getName());
         parameters.put("Surname", user.getSurname());
 
-        Number id = simpleJdbcInsert.executeAndReturnKey(parameters); //je to ok?
+        Number id = simpleJdbcInsert.executeAndReturnKey(parameters);
 
         return getUserById(id.intValue());
     }
@@ -62,15 +59,28 @@ public class RelationalDataAccess  {
     }
 
     public void createBorrowingStatus(int userId, int keyId) {
-        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("Borrowing_Status")
-                .usingGeneratedKeyColumns("Borrowing_Status_ID");
-        Map<String, Object> params = new HashMap<>();
-        params.put("User_User_ID", userId);
-        params.put("Key_Key_ID", keyId);
-        //params.put("from", new Timestamp(System.currentTimeMillis()));
-        //params.put("from", now());
+        if(!isKeyAvailable(keyId)){
+            throw new InvalidOperationException("key with id " + keyId + " is already borrowed");
+        }
+            SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("Borrowing_Status")
+                    .usingGeneratedKeyColumns("Borrowing_Status_ID");
+            Map<String, Object> params = new HashMap<>();
+            params.put("User_User_ID", userId);
+            params.put("Key_Key_ID", keyId);
+            params.put("Date_From", new Timestamp(System.currentTimeMillis()));
 
-        simpleJdbcInsert.execute(params);
+            simpleJdbcInsert.execute(params);
+
+    }
+
+    private boolean isKeyAvailable(int keyId) {
+        //String query = "SELECT count(*) FROM Borrowing_Status WHERE Key_Key_ID = ? AND Date_To IS NULL";
+        String query = "SELECT COUNT(*) FROM Borrowing_Status WHERE Key_Key_ID = ? AND Date_To IS NULL";
+        Integer count = jdbcTemplate.queryForObject(query, new Object[] {keyId}, Integer.class);
+        if (count >=1) {
+            return false;
+        }
+        return true;
     }
 
     public Door createDoor(Door door) {
@@ -80,8 +90,7 @@ public class RelationalDataAccess  {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("Code", door.getCode());
 
-
-        Number id = simpleJdbcInsert.executeAndReturnKey(parameters); //je to ok? ne treba udelat neco jinak?
+        Number id = simpleJdbcInsert.executeAndReturnKey(parameters);
 
         return getDoorById(id.intValue());
     }
@@ -89,5 +98,13 @@ public class RelationalDataAccess  {
     public Door getDoorById(int doorId) {
         String query = "SELECT * FROM Door WHERE Door_ID = " + doorId;
         return jdbcTemplate.queryForObject(query, new DoorRowMapper());
+    }
+
+
+
+    public void setDateToInBorrowingStatus(int keyId, int userId){
+        String query = "update Borrowing_Status set Date_To = ? where User_User_ID = ? AND Key_Key_ID = ? AND Date_To IS NULL";
+        jdbcTemplate.update(query, new Timestamp(System.currentTimeMillis()), userId, keyId);
+
     }
 }
