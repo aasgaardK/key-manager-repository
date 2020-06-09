@@ -15,7 +15,7 @@ public class DoorController {
         this.dao = dao;
     }
 
-    @PostMapping("/create") //magic upravuje kod via anotace
+    @PostMapping("/create")
     public Door createDoor(@RequestBody Door door){
         return dao.createDoor(door);
     }

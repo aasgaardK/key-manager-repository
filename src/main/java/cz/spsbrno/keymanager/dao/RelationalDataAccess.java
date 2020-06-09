@@ -8,13 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-
 import javax.sql.DataSource;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 import java.time.LocalDate;
-
 import static java.time.LocalDate.*;
 
 @Repository
@@ -47,7 +45,6 @@ public class RelationalDataAccess  {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("Code", key.getCode());
 
-
         Number id = simpleJdbcInsert.executeAndReturnKey(parameters);
 
         return getKeyById(id.intValue());
@@ -74,7 +71,6 @@ public class RelationalDataAccess  {
     }
 
     private boolean isKeyAvailable(int keyId) {
-        //String query = "SELECT count(*) FROM Borrowing_Status WHERE Key_Key_ID = ? AND Date_To IS NULL";
         String query = "SELECT COUNT(*) FROM Borrowing_Status WHERE Key_Key_ID = ? AND Date_To IS NULL";
         Integer count = jdbcTemplate.queryForObject(query, new Object[] {keyId}, Integer.class);
         if (count >=1) {

@@ -11,8 +11,7 @@ public class Door {
             this.code = code;
         }
 
-        public Door() {
-        }
+        public Door() { }
 
         public Integer getId() {
             return id;

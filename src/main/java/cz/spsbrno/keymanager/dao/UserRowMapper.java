@@ -2,7 +2,6 @@ package cz.spsbrno.keymanager.dao;
 
 import cz.spsbrno.keymanager.dto.User;
 import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

@@ -11,8 +11,7 @@ public class Key {
         this.code = code;
     }
 
-    public Key() {
-    }
+    public Key() { }
 
     public Integer getId() {
         return id;
@@ -29,9 +28,6 @@ public class Key {
     public void setCode(String name) {
         this.code = name;
     }
-
-
-
 
     @Override
     public boolean equals(Object o) {

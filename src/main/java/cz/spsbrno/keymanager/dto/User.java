@@ -13,8 +13,7 @@ public class User {
         this.surname = surname;
     }
 
-    public User() {
-    }
+    public User() { }
 
     public Integer getId() {
         return id;

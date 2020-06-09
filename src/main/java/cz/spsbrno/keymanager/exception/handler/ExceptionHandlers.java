@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-//jestli nebudete používat endpointy, tak se toto nebude fungovat, asi
 
+//toto je připraveno tak, aby fungovalo při používání endpoits
 @ControllerAdvice
 public class ExceptionHandlers extends ResponseEntityExceptionHandler {
 

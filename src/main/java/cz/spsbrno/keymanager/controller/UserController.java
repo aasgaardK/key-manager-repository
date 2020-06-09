@@ -31,9 +31,15 @@ public class UserController {
         dao.createBorrowingStatus(userId, keyId);
     }
 
-
-    //jestli z template (ui) můžete poslat borrowing status id, tak
-    //se musí toto upravit, není to nutné, záleží na tom jak to ui bude vypadat
+    /*
+        pozor, zde důležitá poznámka. Zde jsem setDateToInBorrowingStatus připravila
+        určitým stylem, ale konečnou úpravu budeš muset provést v závislosti na tom,
+        jaké tam Emma dá endpoits.
+        Pokud v Templates např bude i endpoit pro tuto funkci, tak se zde tento kód nemusí takto používat.
+        Ten jsem sem dala jen pro případ, že by Emma v Template na to nemyslela,
+        aby se to dalo nějak vyvolat z aplikace.
+        Pokud tam budou vstupy, tak to musíš upravit podel nich
+     */
     @PostMapping("/{userId}/keys/return/{keyId}")
     public void returnKey(@PathVariable int userId, @PathVariable int keyId) {
         dao.setDateToInBorrowingStatus(keyId, userId);
