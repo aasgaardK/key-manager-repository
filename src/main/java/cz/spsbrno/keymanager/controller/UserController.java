@@ -44,7 +44,4 @@ public class UserController {
     public void returnKey(@PathVariable int userId, @PathVariable int keyId) {
         dao.setDateToInBorrowingStatus(keyId, userId);
     }
-
-
-
 }

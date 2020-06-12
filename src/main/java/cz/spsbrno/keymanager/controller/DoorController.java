@@ -6,8 +6,6 @@ import cz.spsbrno.keymanager.dto.Key;
 import cz.spsbrno.keymanager.dto.User;
 import org.springframework.web.bind.annotation.*;
 
-// Test commitu - Bozek
-
 @RestController
 @RequestMapping("/doors")
 public class DoorController {
