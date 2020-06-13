@@ -1,8 +1,11 @@
 package cz.spsbrno.keymanager.controller;
 
 import cz.spsbrno.keymanager.dao.RelationalDataAccess;
+import cz.spsbrno.keymanager.dto.Key;
 import cz.spsbrno.keymanager.dto.User;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -24,6 +27,16 @@ public class UserController {
         //System.out.println(user);
 
         return user;
+    }
+    @GetMapping("/{userId}")
+    public String getBorrowedKeysToUser(@PathVariable int userId){
+        List<Key> outList = dao.getBorrowedKeysToUser(userId);
+        String out = "All borrowed keys by this user: \n";
+        for (Key key : outList){
+            String id = Integer.toString(key.getId());
+            out += "Next borrowed key by this user: ID of the key: " + id + ", code of the key: " + key.getCode() + "\n";
+        }
+        return out;
     }
 
     @PostMapping("/{userId}/keys/borrow/{keyId}")

@@ -92,6 +92,18 @@ public class RelationalDataAccess  {
         }
         return AvailableKeys;
     }
+    public List<Key> getBorrowedKeysToUser(int userId) {
+        List<Key> BorrowedKeys = new ArrayList<>();
+        String query = "SELECT k.Key_ID, k.Number FROM key k, borrowing_status bs WHERE bs.Key_Key_ID = k.Key_ID AND User_User_ID = "+ userId;
+        List<Map<String,Object>> rows = jdbcTemplate.queryForList(query);
+        for (Map row : rows){
+            Key keyy = new Key();
+            keyy.setId((Integer) row.get("Key_ID"));
+            keyy.setCode((String) row.get("Number"));
+            BorrowedKeys.add(keyy);
+        }
+        return BorrowedKeys;
+    }
 
     public Door createDoor(Door door) {
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("Door")
