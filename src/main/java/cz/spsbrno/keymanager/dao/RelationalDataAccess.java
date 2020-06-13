@@ -139,8 +139,16 @@ public class RelationalDataAccess  {
 
 
     public void setDateToInBorrowingStatus(int keyId, int userId){
-        String query = "update Borrowing_Status set Date_To = ? where User_User_ID = ? AND Key_Key_ID = ? AND Date_To IS NULL";
+        String query = "UPDATE Borrowing_Status SET Date_To = ? WHERE User_User_ID = ? AND Key_Key_ID = ? AND Date_To IS NULL";
         jdbcTemplate.update(query, new Timestamp(System.currentTimeMillis()), userId, keyId);
 
+    }
+    public void backupOfTheDatabase(){
+        String execution = "BACKUP DATABASE mydb TO DISK = 'C:\\keymanagerbackup\\mydb.bak';";
+        jdbcTemplate.execute(execution);
+    }
+    public void restoreOfTheDatabase(){
+        String execution = "RESTORE DATABASE mydb FROM DISK = 'C:\\keymanagerbackup\\mydb.bak';";
+        jdbcTemplate.execute(execution);
     }
 }
