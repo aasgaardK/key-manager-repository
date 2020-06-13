@@ -105,6 +105,20 @@ public class RelationalDataAccess  {
         return BorrowedKeys;
     }
 
+    public List<User> getBorrowingUsersByKey(int keyId){
+        List<User> BorrowingUsers = new ArrayList<>();
+        String query = "SELECT u.User_ID, u.Name, u.Surname FROM User u, borrowing_status bs WHERE bs.User_User_ID = u.User_ID AND Key_Key_ID = "+ keyId;
+        List<Map<String,Object>> rows = jdbcTemplate.queryForList(query);
+        for (Map row : rows){
+            User userr = new User();
+            userr.setId((Integer) row.get("User_ID"));
+            userr.setName((String) row.get("Name"));
+            userr.setSurname((String) row.get("Surname"));
+            BorrowingUsers.add(userr);
+        }
+        return BorrowingUsers;
+    }
+
     public Door createDoor(Door door) {
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("Door")
                 .usingGeneratedKeyColumns("Door_ID");
