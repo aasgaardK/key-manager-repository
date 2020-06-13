@@ -10,8 +10,10 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 import java.time.LocalDate;
 import static java.time.LocalDate.*;
 
@@ -77,6 +79,18 @@ public class RelationalDataAccess  {
             return false;
         }
         return true;
+    }
+    public List<Key> getAvailableKeys() {
+        String query = "SELECT key.Key_ID, key.Number FROM key WHERE key.Borrowed IS NULL";
+        List<Key> AvailableKeys = new ArrayList<>();
+        List<Map<String,Object>> rows = jdbcTemplate.queryForList(query);
+        for (Map row : rows){
+            Key keyy = new Key();
+            keyy.setId((Integer) row.get("Key_ID"));
+            keyy.setCode((String) row.get("Number"));
+            AvailableKeys.add(keyy);
+        }
+        return AvailableKeys;
     }
 
     public Door createDoor(Door door) {
