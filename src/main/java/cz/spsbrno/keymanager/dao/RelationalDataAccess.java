@@ -144,11 +144,11 @@ public class RelationalDataAccess  {
 
     }
     public void backupOfTheDatabase(){
-        String execution = "BACKUP DATABASE mydb TO DISK = 'C:\\keymanagerbackup\\mydb.bak';";
+        String execution = "BACKUP DATABASE mydb TO DISK = 'C:\\keymanagerbackup\\mydb.bak';"; //Predpripraveno - nevim, jak to implementovat spravne a zda to funguje
         jdbcTemplate.execute(execution);
     }
     public void restoreOfTheDatabase(){
-        String execution = "RESTORE DATABASE mydb FROM DISK = 'C:\\keymanagerbackup\\mydb.bak';";
+        String execution = "RESTORE DATABASE mydb FROM DISK = 'C:\\keymanagerbackup\\mydb.bak';"; //Predpripraveno - nevim, jak to implementovat spravne tak, aby se to provedlo po kazdem zapnuti PC
         jdbcTemplate.execute(execution);
     }
 }
