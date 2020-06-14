@@ -3,11 +3,14 @@ package cz.spsbrno.keymanager.controller;
 import cz.spsbrno.keymanager.dao.RelationalDataAccess;
 import cz.spsbrno.keymanager.dto.Key;
 import cz.spsbrno.keymanager.dto.User;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+//@RestController
+@Controller
 @RequestMapping("/users")
 public class UserController {
     private final RelationalDataAccess dao;
@@ -15,10 +18,25 @@ public class UserController {
     public UserController(RelationalDataAccess dao) {
         this.dao = dao;
     }
+    @GetMapping("/form")
+    public String index(User user){
+        return "create_user.html";
+    }
 
     @PostMapping("/create")
-    public User createUser(@RequestBody User user) {
-        return dao.createUser(user);
+    public String createUser(User user, Model model) {
+        User createdUser = dao.createUser(user);
+
+        model.addAttribute("name", createdUser.getName() + " " + createdUser.getSurname());
+        model.addAttribute("greeting", "Ahoj");
+        return "index.html";
+    }
+
+    @GetMapping("/test")
+    public String test(Model model){
+        model.addAttribute("test", dao.getUserById(2).getName());
+//        model.addAttribute("test", dao.getUserById(2).toString()+dao.getUserById(2).getName());
+        return "test.html";
     }
 
     @GetMapping("/{userId}")
@@ -28,7 +46,7 @@ public class UserController {
 
         return user;
     }
-    @GetMapping("/{userId}")
+    @GetMapping("/{userId}/keys")
     public String getBorrowedKeysToUser(@PathVariable int userId){
         List<Key> outList = dao.getBorrowedKeysToUser(userId);
         String out = "All borrowed keys by this user: \n";

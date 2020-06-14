@@ -39,7 +39,7 @@ public class KeyController {
         }
         return out;
     }
-    @GetMapping("/{keyId}")
+    @GetMapping("/{keyId}/users")
     public String getBorrowingUsersByKey(@PathVariable int keyId){
         List<User> outList = dao.getBorrowingUsersByKey(keyId);
         String out = "All borrowing users for this specific user: \n";
