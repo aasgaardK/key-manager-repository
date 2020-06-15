@@ -28,11 +28,22 @@ public class UserController {
 
         return user;
     }
+    @GetMapping("/borrke/{userId}")
+    public String getBorrowedKeysToUser(@PathVariable int userId){
+        List<Key> outList = dao.getBorrowedKeysToUser(userId);
+        String out = "All borrowed keys by this user: "+ System.lineSeparator();
+        for (Key key : outList){
+            String id = Integer.toString(key.getId());
+            out += "Next borrowed key by this user: ID of the key: " + id + ", code of the key: " + key.getCode() + System.lineSeparator();
+        }
+        return out;
+    }
 
     @PostMapping("/{userId}/keys/borrow/{keyId}")
     public void borrowKey(@PathVariable int userId, @PathVariable int keyId) {
         dao.createBorrowingStatus(userId, keyId);
     }
+
 
     /*
         pozor, zde důležitá poznámka. Zde jsem setDateToInBorrowingStatus připravila

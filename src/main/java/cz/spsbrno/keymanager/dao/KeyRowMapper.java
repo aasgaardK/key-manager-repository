@@ -11,8 +11,8 @@ public class KeyRowMapper implements RowMapper<Key> {
     public Key mapRow(ResultSet rs, int rowNum) throws SQLException {
         Key key = new Key();
 
-        key.setId(rs.getInt("Door_Key_ID"));
-        key.setCode(rs.getString("Code"));
+        key.setId(rs.getInt("Key_ID"));
+        key.setCode(rs.getString("Number"));
 
 
         return key;

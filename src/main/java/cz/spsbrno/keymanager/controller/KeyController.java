@@ -29,5 +29,24 @@ public class KeyController {
         System.out.println(key);
         return key;
     }
-
+    @GetMapping("/available")
+    public String getAvailableKeys(){
+        List<Key> outList = dao.getAvailableKeys();
+        String out = "All available keys: "+ System.lineSeparator();
+        for (Key key : outList){
+            String id = Integer.toString(key.getId());
+            out += "Next available key: ID of the key: " + id + ", code of the key: " + key.getCode() + System.lineSeparator();
+        }
+        return out;
+    }
+    @GetMapping("/borrus/{keyId}")
+    public String getBorrowingUsersByKey(@PathVariable int keyId){
+        List<User> outList = dao.getBorrowingUsersByKey(keyId);
+        String out = "All borrowing users for this specific key: " + System.lineSeparator();
+        for (User user : outList){
+            String id = Integer.toString(user.getId());
+            out += "Next borrowing user of this key: ID of the user: " + id + ", name of the user: " + user.getName() + ", surname of the user: "+user.getSurname() + System.lineSeparator();
+        }
+        return out;
+    }
 }

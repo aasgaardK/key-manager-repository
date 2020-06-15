@@ -13,7 +13,7 @@ public class DoorRowMapper implements RowMapper<Door>{
         Door door = new Door();
 
         door.setId(rs.getInt("Door_ID"));
-        door.setCode(rs.getString("Code"));
+        door.setCode(rs.getString("Number"));
 
 
         return door;

@@ -23,7 +23,7 @@ public class RelationalDataAccess  {
     private JdbcTemplate jdbcTemplate;
 
     public User createUser(User user) {
-        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("User")
+        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("`user`")
                 .usingGeneratedKeyColumns("User_ID");
 
         Map<String, Object> parameters = new HashMap<String, Object>();
@@ -36,16 +36,16 @@ public class RelationalDataAccess  {
     }
 
     public User getUserById(int id) {
-        String query = "SELECT * FROM User WHERE User_ID = " + id;
+        String query = "SELECT * FROM `user` WHERE User_ID = " + id;
         return jdbcTemplate.queryForObject(query, new UserRowMapper());
     }
 
     public Key createKey(Key key) {
-        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("Door_Key")
-                .usingGeneratedKeyColumns("Door_Key_ID");
+        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("`key`")
+                .usingGeneratedKeyColumns("Key_ID");
 
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("Code", key.getCode());
+        parameters.put("Number", key.getCode());
 
         Number id = simpleJdbcInsert.executeAndReturnKey(parameters);
 
@@ -53,7 +53,7 @@ public class RelationalDataAccess  {
     }
 
     public Key getKeyById(int id) {
-        String query = "SELECT * FROM Door_Key WHERE Door_Key_ID = " + id;
+        String query = "SELECT * FROM `key` WHERE Key_ID = " + id;
         return jdbcTemplate.queryForObject(query, new KeyRowMapper());
     }
 
@@ -61,8 +61,8 @@ public class RelationalDataAccess  {
         if(!isKeyAvailable(keyId)){
             throw new InvalidOperationException("key with id " + keyId + " is already borrowed");
         }
-            SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("Borrowing_Status")
-                    .usingGeneratedKeyColumns("Borrowing_Status_ID");
+            SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("`borrowing_status`")
+                    .usingGeneratedKeyColumns("Borrowing_Status_ID"); // ? - Takovy sloupec neexistuje
             Map<String, Object> params = new HashMap<>();
             params.put("User_User_ID", userId);
             params.put("Key_Key_ID", keyId);
@@ -73,7 +73,7 @@ public class RelationalDataAccess  {
     }
 
     private boolean isKeyAvailable(int keyId) {
-        String query = "SELECT COUNT(*) FROM Borrowing_Status WHERE Key_Key_ID = ? AND Date_To IS NULL";
+        String query = "SELECT COUNT(*) FROM `borrowing_status` WHERE Key_Key_ID = ? AND Date_To IS NULL";
         Integer count = jdbcTemplate.queryForObject(query, new Object[] {keyId}, Integer.class);
         if (count >=1) {
             return false;
@@ -81,7 +81,7 @@ public class RelationalDataAccess  {
         return true;
     }
     public List<Key> getAvailableKeys() {
-        String query = "SELECT key.Key_ID, key.Number FROM key WHERE key.Borrowed IS NULL";
+        String query = "SELECT Key_ID, Number FROM `key` WHERE Borrowed = 0";
         List<Key> AvailableKeys = new ArrayList<>();
         List<Map<String,Object>> rows = jdbcTemplate.queryForList(query);
         for (Map row : rows){
@@ -94,7 +94,7 @@ public class RelationalDataAccess  {
     }
     public List<Key> getBorrowedKeysToUser(int userId) {
         List<Key> BorrowedKeys = new ArrayList<>();
-        String query = "SELECT k.Key_ID, k.Number FROM key k, borrowing_status bs WHERE bs.Key_Key_ID = k.Key_ID AND User_User_ID = "+ userId;
+        String query = "SELECT k.Key_ID, k.Number FROM `key` k, `borrowing_status` bs WHERE bs.Key_Key_ID = k.Key_ID AND bs.User_User_ID = "+ userId;
         List<Map<String,Object>> rows = jdbcTemplate.queryForList(query);
         for (Map row : rows){
             Key keyy = new Key();
@@ -107,7 +107,7 @@ public class RelationalDataAccess  {
 
     public List<User> getBorrowingUsersByKey(int keyId){
         List<User> BorrowingUsers = new ArrayList<>();
-        String query = "SELECT u.User_ID, u.Name, u.Surname FROM User u, borrowing_status bs WHERE bs.User_User_ID = u.User_ID AND Key_Key_ID = "+ keyId;
+        String query = "SELECT u.User_ID, u.Name, u.Surname FROM `user` u, `borrowing_status` bs WHERE bs.User_User_ID = u.User_ID AND bs.Key_Key_ID = "+ keyId;
         List<Map<String,Object>> rows = jdbcTemplate.queryForList(query);
         for (Map row : rows){
             User userr = new User();
@@ -120,11 +120,11 @@ public class RelationalDataAccess  {
     }
 
     public Door createDoor(Door door) {
-        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("Door")
+        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("`door`")
                 .usingGeneratedKeyColumns("Door_ID");
 
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("Code", door.getCode());
+        parameters.put("Number", door.getCode());
 
         Number id = simpleJdbcInsert.executeAndReturnKey(parameters);
 
@@ -132,23 +132,23 @@ public class RelationalDataAccess  {
     }
 
     public Door getDoorById(int doorId) {
-        String query = "SELECT * FROM Door WHERE Door_ID = " + doorId;
+        String query = "SELECT * FROM `door` WHERE Door_ID = " + doorId;
         return jdbcTemplate.queryForObject(query, new DoorRowMapper());
     }
 
 
 
     public void setDateToInBorrowingStatus(int keyId, int userId){
-        String query = "UPDATE Borrowing_Status SET Date_To = ? WHERE User_User_ID = ? AND Key_Key_ID = ? AND Date_To IS NULL";
+        String query = "UPDATE `borrowing_Status` SET Date_To = ? WHERE User_User_ID = ? AND Key_Key_ID = ? AND Date_To IS NULL";
         jdbcTemplate.update(query, new Timestamp(System.currentTimeMillis()), userId, keyId);
 
     }
     public void backupOfTheDatabase(){
-        String execution = "BACKUP DATABASE mydb TO DISK = 'C:\\keymanagerbackup\\mydb.bak';"; //Predpripraveno - nevim, jak to implementovat spravne a zda to funguje
+        String execution = "BACKUP DATABASE `mydb` TO DISK = 'C:\\keymanagerbackup\\mydb.bak';"; //Predpripraveno - nevim, jak to implementovat spravne a zda to funguje
         jdbcTemplate.execute(execution);
     }
     public void restoreOfTheDatabase(){
-        String execution = "RESTORE DATABASE mydb FROM DISK = 'C:\\keymanagerbackup\\mydb.bak';"; //Predpripraveno - nevim, jak to implementovat spravne tak, aby se to provedlo po kazdem zapnuti PC
+        String execution = "RESTORE DATABASE `mydb` FROM DISK = 'C:\\keymanagerbackup\\mydb.bak';"; //Predpripraveno - nevim, jak to implementovat spravne tak, aby se to provedlo po kazdem zapnuti PC
         jdbcTemplate.execute(execution);
     }
 }
