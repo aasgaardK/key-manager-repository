@@ -31,10 +31,10 @@ public class UserController {
     @GetMapping("/borrke/{userId}")
     public String getBorrowedKeysToUser(@PathVariable int userId){
         List<Key> outList = dao.getBorrowedKeysToUser(userId);
-        String out = "All borrowed keys by this user: "+ System.lineSeparator();
+        String out = "All borrowed keys by this user: <br />";
         for (Key key : outList){
             String id = Integer.toString(key.getId());
-            out += "Next borrowed key by this user: ID of the key: " + id + ", code of the key: " + key.getCode() + System.lineSeparator();
+            out += "Next borrowed key by this user: ID of the key: " + id + ", code of the key: " + key.getCode() + "<br />";
         }
         return out;
     }

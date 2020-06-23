@@ -5,10 +5,14 @@ import cz.spsbrno.keymanager.dto.Key;
 import cz.spsbrno.keymanager.dto.User;
 import cz.spsbrno.keymanager.exception.InvalidOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
+import javax.swing.*;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,7 +57,7 @@ public class RelationalDataAccess  {
     }
 
     public Key getKeyById(int id) {
-        String query = "SELECT * FROM `key` WHERE Key_ID = " + id;
+        String query = "SELECT * FROM `door_key` WHERE Door_Key_ID = " + id;
         return jdbcTemplate.queryForObject(query, new KeyRowMapper());
     }
 
@@ -81,25 +85,25 @@ public class RelationalDataAccess  {
         return true;
     }
     public List<Key> getAvailableKeys() {
-        String query = "SELECT Key_ID, Number FROM `key` WHERE Borrowed = 0";
+        String query = "SELECT k.Door_Key_ID, k.Code FROM `door_key` k, `borrowing_status` bs WHERE bs.Key_Key_ID = k.Door_Key_ID";
         List<Key> AvailableKeys = new ArrayList<>();
         List<Map<String,Object>> rows = jdbcTemplate.queryForList(query);
         for (Map row : rows){
             Key keyy = new Key();
             keyy.setId((Integer) row.get("Key_ID"));
-            keyy.setCode((String) row.get("Number"));
+            keyy.setCode((String) row.get("Code"));
             AvailableKeys.add(keyy);
         }
         return AvailableKeys;
     }
     public List<Key> getBorrowedKeysToUser(int userId) {
         List<Key> BorrowedKeys = new ArrayList<>();
-        String query = "SELECT k.Key_ID, k.Number FROM `key` k, `borrowing_status` bs WHERE bs.Key_Key_ID = k.Key_ID AND bs.User_User_ID = "+ userId;
+        String query = "SELECT k.Door_Key_ID, k.Code FROM `door_key` k, `borrowing_status` bs WHERE bs.Key_Key_ID = k.Door_Key_ID AND bs.User_User_ID = "+ userId;
         List<Map<String,Object>> rows = jdbcTemplate.queryForList(query);
         for (Map row : rows){
             Key keyy = new Key();
             keyy.setId((Integer) row.get("Key_ID"));
-            keyy.setCode((String) row.get("Number"));
+            keyy.setCode((String) row.get("Code"));
             BorrowedKeys.add(keyy);
         }
         return BorrowedKeys;
@@ -143,12 +147,5 @@ public class RelationalDataAccess  {
         jdbcTemplate.update(query, new Timestamp(System.currentTimeMillis()), userId, keyId);
 
     }
-    public void backupOfTheDatabase(){
-        String execution = "BACKUP DATABASE `mydb` TO DISK = 'C:\\keymanagerbackup\\mydb.bak';"; //Predpripraveno - nevim, jak to implementovat spravne a zda to funguje
-        jdbcTemplate.execute(execution);
-    }
-    public void restoreOfTheDatabase(){
-        String execution = "RESTORE DATABASE `mydb` FROM DISK = 'C:\\keymanagerbackup\\mydb.bak';"; //Predpripraveno - nevim, jak to implementovat spravne tak, aby se to provedlo po kazdem zapnuti PC
-        jdbcTemplate.execute(execution);
-    }
+    // @EventListener(ApplicationReadyEvent.class) -> Spousteni funkce, pred kterou je toto dano, pri startu
 }
