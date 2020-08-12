@@ -3,11 +3,13 @@ package cz.spsbrno.keymanager.controller;
 import cz.spsbrno.keymanager.dao.RelationalDataAccess;
 import cz.spsbrno.keymanager.dto.Key;
 import cz.spsbrno.keymanager.dto.User;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/users")
 public class UserController {
     private final RelationalDataAccess dao;
@@ -58,4 +60,13 @@ public class UserController {
     public void returnKey(@PathVariable int userId, @PathVariable int keyId) {
         dao.setDateToInBorrowingStatus(keyId, userId);
     }
+
+    @GetMapping
+    public String getUsers(Model model){
+        User user1 = new User(4, "Petr", "Novak");
+        User user2 = new User(5, "Klaudia", "Brisakova");
+        model.addAttribute("users", new User[]{user1, user2});
+        return "cssandjs/users";
+    }
+
 }
