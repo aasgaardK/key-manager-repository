@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<form action="#" th:action="@{/keys/create}" th:object="${key}" method="post">
+    <label for="code">Code</label>
+    <input type="text" th:field="*{code}" id="code" placeholder="Code">
+    <span th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></span>
+    <input type="submit" value="Add Key">
+</form>
+</body>
+</html>

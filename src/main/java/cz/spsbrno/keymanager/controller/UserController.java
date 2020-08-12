@@ -18,6 +18,7 @@ public class UserController {
     public UserController(RelationalDataAccess dao) {
         this.dao = dao;
     }
+
     @GetMapping("/form")
     public String index(User user){
         return "create_user.html";

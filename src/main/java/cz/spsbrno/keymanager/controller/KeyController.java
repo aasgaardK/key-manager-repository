@@ -4,6 +4,9 @@ import cz.spsbrno.keymanager.dao.RelationalDataAccess;
 import cz.spsbrno.keymanager.dto.Key;
 import cz.spsbrno.keymanager.dto.User;
 import org.springframework.web.bind.annotation.*;
+//pozn: Zde není důvod, aby tyto věci, co Tomáš importuje byly importovány,
+// na zašedlém pozadí je vidět, že ani nejsou dále používány, navrhuji je
+// stáhnout z kódu a nechat je potřebné
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
