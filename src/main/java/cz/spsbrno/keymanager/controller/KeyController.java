@@ -1,23 +1,24 @@
 package cz.spsbrno.keymanager.controller;
 
+import cz.spsbrno.keymanager.dao.KeyDao;
 import cz.spsbrno.keymanager.dao.RelationalDataAccess;
 import cz.spsbrno.keymanager.dto.Key;
 import cz.spsbrno.keymanager.dto.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 @Controller
 @RequestMapping("/keys")
 public class KeyController {
     private final RelationalDataAccess dao;
+    private final KeyDao keyDao;
 
-    public KeyController(RelationalDataAccess dao) {
+    public KeyController(RelationalDataAccess dao, KeyDao keyDao) {
         this.dao = dao;
+        this.keyDao = keyDao;
     }
 
     @PostMapping("/create")
@@ -54,9 +55,8 @@ public class KeyController {
 
     @GetMapping
     public String getKeys(Model model){
-        Key key1 = new Key(15,"Budova A");
-        Key key2 = new Key(20,"Budova A");
-        model.addAttribute("keys", new Key[]{key1, key2});
+        List<Key> keys = keyDao.getAll();
+        model.addAttribute("keyList", keys);
         return "keys";
     }
 }

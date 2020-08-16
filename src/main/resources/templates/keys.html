@@ -8,9 +8,8 @@
 <body>
 <h1>List of keys:</h1>
 <table>
-    <th:block th:each="key : ${keys}">
+    <th:block th:each="key : ${keyList}">
         <tr>
-            <td th:text="${key.id}"></td>
             <td th:text="${key.code}"></td>
         </tr>
     </th:block>
