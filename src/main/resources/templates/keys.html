@@ -6,14 +6,14 @@
     <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />
 </head>
 <body>
-<h1>Users:</h1>
+<h1>List of keys:</h1>
 <table>
-<th:block th:each="user : ${users}">
-    <tr>
-        <td th:text="${user.name}"></td>
-        <td th:text="${user.surname}"></td>
-    </tr>
-</th:block>
+    <th:block th:each="key : ${keys}">
+        <tr>
+            <td th:text="${key.id}"></td>
+            <td th:text="${key.code}"></td>
+        </tr>
+    </th:block>
 </table>
 </body>
 </html>

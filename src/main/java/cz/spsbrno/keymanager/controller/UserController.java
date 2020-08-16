@@ -66,7 +66,7 @@ public class UserController {
         User user1 = new User(4, "Petr", "Novak");
         User user2 = new User(5, "Klaudia", "Brisakova");
         model.addAttribute("users", new User[]{user1, user2});
-        return "cssandjs/users";
+        return "users";
     }
 
 }

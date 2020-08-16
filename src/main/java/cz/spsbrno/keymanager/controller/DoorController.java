@@ -4,9 +4,11 @@ import cz.spsbrno.keymanager.dao.RelationalDataAccess;
 import cz.spsbrno.keymanager.dto.Door;
 import cz.spsbrno.keymanager.dto.Key;
 import cz.spsbrno.keymanager.dto.User;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("/doors")
 public class DoorController {
     private final RelationalDataAccess dao;
@@ -25,5 +27,13 @@ public class DoorController {
         Door door = dao.getDoorById(doorId);
         System.out.println(door);
         return door;
+    }
+
+    @GetMapping
+    public String getDoors(Model model){
+        Door door1 = new Door(15,"Budova A");
+        Door door2 = new Door(20,"Budova A");
+        model.addAttribute("doors", new Door[]{door1, door2});
+        return "doors";
     }
 }
