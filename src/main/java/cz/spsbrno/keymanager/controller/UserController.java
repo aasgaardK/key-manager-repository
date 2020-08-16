@@ -1,6 +1,7 @@
 package cz.spsbrno.keymanager.controller;
 
 import cz.spsbrno.keymanager.dao.RelationalDataAccess;
+import cz.spsbrno.keymanager.dao.UserDao;
 import cz.spsbrno.keymanager.dto.Key;
 import cz.spsbrno.keymanager.dto.User;
 import org.springframework.stereotype.Controller;
@@ -13,9 +14,11 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
     private final RelationalDataAccess dao;
+    private final UserDao userDao;
 
-    public UserController(RelationalDataAccess dao) {
+    public UserController(RelationalDataAccess dao, UserDao userDao) {
         this.dao = dao;
+        this.userDao = userDao;
     }
 
     @PostMapping("/create")
@@ -63,9 +66,8 @@ public class UserController {
 
     @GetMapping
     public String getUsers(Model model){
-        User user1 = new User(4, "Petr", "Novak");
-        User user2 = new User(5, "Klaudia", "Brisakova");
-        model.addAttribute("users", new User[]{user1, user2});
+        List<User> users = userDao.getAll();
+        model.addAttribute("userList", users);
         return "users";
     }
 

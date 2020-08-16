@@ -5,21 +5,15 @@ import cz.spsbrno.keymanager.dto.Key;
 import cz.spsbrno.keymanager.dto.User;
 import cz.spsbrno.keymanager.exception.InvalidOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import javax.sql.DataSource;
-import javax.swing.*;
-import java.io.IOException;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
-import java.time.LocalDate;
-import static java.time.LocalDate.*;
+import java.util.Map;
 
 @Repository
 public class RelationalDataAccess  {
