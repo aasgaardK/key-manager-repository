@@ -1,19 +1,69 @@
 <!DOCTYPE HTML>
-<html>
+<html xmlns:text-align="http://www.w3.org/1999/xhtml">
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+    body  {
+    background-image: url("paper.gif");
+    background-color: #cccccc;
+    border: double;
+    }
+    #p1 {background-color:hsla(120,100%,50%,0.3);}
+    #p2 {background-color:hsla(120,100%,75%,0.3);}
+    #p3 {background-color:hsla(120,100%,25%,0.3);}
+    #p4 {background-color:hsla(120,60%,70%,0.3);}
+    #p5 {background-color:hsla(290,100%,50%,0.3);}
+    #p6 {background-color:hsla(290,60%,70%,0.3);}
+    h1.center {
+        text-align: center;
+    }
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-row-gap: 50px;
+  grid-column-gap: 100px;
+  background-color: #2196F3;
+  padding: 20px;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 200px 0;
+  font-size: 30px;
+}
+    h1.large {
+        font-size: 300%;
+    }
+
+    </style>
 </head>
 <body>
-<p>Welcome in the Key Manager System</p>
-<div>
-    <button><a href="/users">USERS</a></button>
-</div>
-<div>
-    <button><a href="/keys">KEYS</a></button>
-</div>
-<div>
-    <button><a href="/doors">DOORS</a></button>
+<p><h1 class="center" id="h1">Welcome in the Key Manager System</h1></p>
+<div class="grid-container">
+    <div class="item1">
+    <button>
+        <p id="p2">
+            <a href="/users">USERS</a>
+        </p>
+    </button>
+    </div>
+    <div class="item2">
+    <button>
+        <p id="p3">
+            <a href="/keys">KEYS</a></button>
+        </p>
+    </button>
+    </div>
+    <div class="item3">
+    <button>
+        <p id="p4">
+            <a href="/doors">DOORS</a>
+        </p>
+    </button>
+    </div>
+
 </div>
 </body>
 </html>
