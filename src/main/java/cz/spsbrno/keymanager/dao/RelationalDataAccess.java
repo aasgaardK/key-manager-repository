@@ -20,23 +20,9 @@ public class RelationalDataAccess  {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public User createUser(User user) {
-        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("User")
-                .usingGeneratedKeyColumns("User_ID");
 
-        Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("Name", user.getName());
-        parameters.put("Surname", user.getSurname());
 
-        Number id = simpleJdbcInsert.executeAndReturnKey(parameters);
 
-        return getUserById(id.intValue());
-    }
-
-    public User getUserById(int id) {
-        String query = "SELECT * FROM `user` WHERE User_ID = " + id;
-        return jdbcTemplate.queryForObject(query, new UserRowMapper());
-    }
 
     public Key createKey(Key key) {
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("Door_Key")

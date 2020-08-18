@@ -6,14 +6,20 @@
     <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />
 </head>
 <body>
+<button>
+    <a href="/users/addUserForm">Create User</a>
+</button>
 <h1>List of users:</h1>
+<div>
+    <p th:text="${createdUserMessage}"></p>
+</div>
 <table>
-<th:block th:each="user : ${userList}">
-    <tr>
-        <td th:text="${user.name}"></td>
-        <td th:text="${user.surname}"></td>
-    </tr>
-</th:block>
+    <th:block th:each="user : ${userList}">
+        <tr>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.surname}"></td>
+        </tr>
+    </th:block>
 </table>
 </body>
 </html>

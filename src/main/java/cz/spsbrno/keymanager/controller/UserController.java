@@ -21,14 +21,22 @@ public class UserController {
         this.userDao = userDao;
     }
 
-    @PostMapping("/create")
-    public User createUser(@RequestBody User user) {
-        return dao.createUser(user);
+    @PostMapping
+    public String createUser(User user, Model model) {
+        User createdUser = userDao.createUser(user);
+        model.addAttribute("createdUserMessage",
+                "New user " + createdUser.getName() + " " + createdUser.getSurname() + " was added to database.");
+        return getUsers(model);
+    }
+
+    @GetMapping("/addUserForm")
+    public String addUserForm(User user){
+        return "add-user";
     }
 
     @GetMapping("/{userId}")
     public User getUserById(@PathVariable int userId) {
-        User user = dao.getUserById(userId);
+        User user = userDao.getUserById(userId);
         //System.out.println(user);
 
         return user;
@@ -36,13 +44,13 @@ public class UserController {
     @GetMapping("/borrke/{userId}")
     public String getBorrowedKeysToUser(@PathVariable int userId){
         List<Key> outList = dao.getBorrowedKeysToUser(userId);
-        String out = "All borrowed keys by this user: <br />";
+    String out = "All borrowed keys by this user: <br />";
         for (Key key : outList){
-            String id = Integer.toString(key.getId());
-            out += "Next borrowed key by this user: ID of the key: " + id + ", code of the key: " + key.getCode() + "<br />";
-        }
-        return out;
+        String id = Integer.toString(key.getId());
+        out += "Next borrowed key by this user: ID of the key: " + id + ", code of the key: " + key.getCode() + "<br />";
     }
+        return out;
+}
 
     @PostMapping("/{userId}/keys/borrow/{keyId}")
     public void borrowKey(@PathVariable int userId, @PathVariable int keyId) {
@@ -70,5 +78,7 @@ public class UserController {
         model.addAttribute("userList", users);
         return "users";
     }
+
+
 
 }
