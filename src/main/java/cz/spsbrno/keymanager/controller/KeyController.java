@@ -21,17 +21,21 @@ public class KeyController {
         this.keyDao = keyDao;
     }
 
-    @PostMapping("/create")
-    public Key createKey(@RequestBody Key key) {
-        return dao.createKey(key);
+    @PostMapping
+    public String createKey(Key key, Model model) {
+        Key createdKey = keyDao.createKey(key);
+        model.addAttribute("createdKeyMessage",
+                "New key " + createdKey.getCode() + " was added to database. ");
+        return getKeys(model);
     }
 
     @GetMapping("/{keyId}")
     public Key getKeyById(@PathVariable int keyId) {
-        Key key = dao.getKeyById(keyId);
+        Key key = KeyDao.getKeyById(keyId); //TODO nefunguje
         System.out.println(key);
         return key;
     }
+
     @GetMapping("/available")
     public String getAvailableKeys(){
         List<Key> outList = dao.getAvailableKeys();
@@ -51,6 +55,11 @@ public class KeyController {
             out += "Next borrowing user of this key: ID of the user: " + id + ", name of the user: " + user.getName() + ", surname of the user: "+user.getSurname() + "<br />";
         }
         return out;
+    }
+
+    @GetMapping("/addKeyForm")
+    public String addKeyForm(Key key){
+        return "addKey";
     }
 
     @GetMapping

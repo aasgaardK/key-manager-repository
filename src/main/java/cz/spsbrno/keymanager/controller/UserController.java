@@ -37,8 +37,6 @@ public class UserController {
     @GetMapping("/{userId}")
     public User getUserById(@PathVariable int userId) {
         User user = userDao.getUserById(userId);
-        //System.out.println(user);
-
         return user;
     }
     @GetMapping("/borrke/{userId}")

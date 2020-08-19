@@ -24,22 +24,7 @@ public class RelationalDataAccess  {
 
 
 
-    public Key createKey(Key key) {
-        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("Door_Key")
-                .usingGeneratedKeyColumns("Door_Key_ID");
 
-        Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("Code", key.getCode());
-
-        Number id = simpleJdbcInsert.executeAndReturnKey(parameters);
-
-        return getKeyById(id.intValue());
-    }
-
-    public Key getKeyById(int id) {
-        String query = "SELECT * FROM `door_key` WHERE Door_Key_ID = " + id;
-        return jdbcTemplate.queryForObject(query, new KeyRowMapper());
-    }
 
     public void createBorrowingStatus(int userId, int keyId) {
         if(!isKeyAvailable(keyId)){
