@@ -6,6 +6,9 @@
     <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />
 </head>
 <body>
+<button>
+    <a href="localhost: 8081/index">Home</a>
+</button>
 <h1>List of doors:</h1>
 <table class="test-table">
     <th:block th:each="door : ${doorList}">

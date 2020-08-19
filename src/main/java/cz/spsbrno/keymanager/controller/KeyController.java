@@ -31,10 +31,11 @@ public class KeyController {
 
     @GetMapping("/{keyId}")
     public Key getKeyById(@PathVariable int keyId) {
-        Key key = KeyDao.getKeyById(keyId); //TODO nefunguje
+        Key key = keyDao.getKeyById(keyId); //TODO nefunguje
         System.out.println(key);
         return key;
     }
+
 
     @GetMapping("/available")
     public String getAvailableKeys(){
