@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DoorRowMapper implements RowMapper<Door>{
+
     @Override
     public Door mapRow(ResultSet rs, int rowNum) throws SQLException {
         Door door = new Door();

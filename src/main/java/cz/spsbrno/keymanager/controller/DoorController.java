@@ -42,5 +42,10 @@ public class DoorController {
        return "doors";
     }
 
+    @GetMapping("/addDoorForm")
+    public String addDoorForm(Door door){
+        return "add-door.html";
+    }
+
 
 }

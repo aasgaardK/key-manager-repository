@@ -60,7 +60,7 @@ public class KeyController {
 
     @GetMapping("/addKeyForm")
     public String addKeyForm(Key key){
-        return "addKey";
+        return "add-key";
     }
 
     @GetMapping
