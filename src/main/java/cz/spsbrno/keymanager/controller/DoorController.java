@@ -16,16 +16,16 @@ public class DoorController {
     private final RelationalDataAccess dao;
     private final DoorDao doorDao;
 
-
     public DoorController(RelationalDataAccess dao, DoorDao doorDao) {
         this.dao = dao;
         this.doorDao = doorDao;
     }
 
-
-    @PostMapping("/create")
-    public Door createDoor(@RequestBody Door door){
-        return dao.createDoor(door);
+    @PostMapping
+    public String createDoor(Door door, Model model){
+        Door createdDoor = doorDao.createDoor(door);
+        model.addAttribute("createdDoorMessage", "New door " + createdDoor.getCode() + " was added to the database.");
+        return getDoors(model);
     }
 
     @GetMapping("/{doorId}")
@@ -44,7 +44,7 @@ public class DoorController {
 
     @GetMapping("/addDoorForm")
     public String addDoorForm(Door door){
-        return "add-door.html";
+        return "add-door";
     }
 
 

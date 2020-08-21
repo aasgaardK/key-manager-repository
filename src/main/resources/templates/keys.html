@@ -13,6 +13,9 @@
     <a href="/">Home</a>
 </button>
 <h1>List of keys:</h1>
+<div>
+    <p th:text="${createdKeyMessage}"></p>
+</div>
 <table>
     <th:block th:each="key : ${keyList}">
         <tr>

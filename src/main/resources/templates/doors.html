@@ -7,12 +7,15 @@
 </head>
 <body>
 <button>
-    <a href="/door/addDoorForm">Create Door</a>
+    <a href="/doors/addDoorForm">Create Door</a>
 </button>
 <button>
     <a href="/">Home</a>
 </button>
 <h1>List of doors:</h1>
+<div>
+    <p th:text="${createdDoorMessage}"></p>
+</div>
 <table class="test-table">
     <th:block th:each="door : ${doorList}">
         <tr>

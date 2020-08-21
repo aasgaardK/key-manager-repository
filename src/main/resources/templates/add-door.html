@@ -10,10 +10,9 @@
     <a href="/">Home</a>
 </button>
 <h1>please fill inn data for adding a new door to the database:</h1>
-<form action="#" th:action="@{/keys}" th:object="${key}" method="post">
+<form action="#" th:action="@{/doors}" th:object="${door}" method="post">
     <label for="code">Code</label>
     <input type="text" th:field="*{code}" id="code" placeholder="Code">
-    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
     <input type="submit" value="Send">
 </form>
 

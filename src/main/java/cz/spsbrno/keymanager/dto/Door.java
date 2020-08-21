@@ -25,8 +25,8 @@ public class Door {
             return code;
         }
 
-        public void setCode(String name) {
-            this.code = name;
+        public void setCode(String code) {
+            this.code = code;
         }
 
         @Override
