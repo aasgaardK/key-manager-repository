@@ -7,13 +7,21 @@
 </head>
 <body>
 <button>
+    <a href="/keys/borrowKeyForm">Borrow Key</a>
+</button>
+<button>
     <a href="/">Home</a>
 </button>
-<h1>please fill inn data for adding a new door to the database:</h1>
-<form action="#" th:action="@{/doors}" th:object="${door}" method="post">
-    <label for="code">Code</label>
-    <input type="text" th:field="*{code}" id="code" placeholder="Code">
-    <input type="submit" value="Send">
-</form>
+<h1>List of available keys:</h1>
+<div>
+    <p th:text="${borrowedKeyMessage}"></p>
+</div>
+<table>
+    <th:block th:each="key : ${keyList}">
+        <tr>
+            <td th:text="${key.code}"></td>
+        </tr>
+    </th:block>
+</table>
 </body>
 </html>
