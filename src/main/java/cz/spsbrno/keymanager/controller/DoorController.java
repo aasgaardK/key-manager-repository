@@ -28,12 +28,12 @@ public class DoorController {
         return getDoors(model);
     }
 
-    @GetMapping("/{doorId}")
-    public Door getDoorById(@PathVariable int doorId) {
-        Door door = dao.getDoorById(doorId);
-        System.out.println(door);
-        return door;
-    }
+//    @GetMapping("/{doorId}")
+//    public Door getDoorById(@PathVariable int doorId) {
+//        Door door = dao.getDoorById(doorId);
+//        System.out.println(door);
+//        return door;
+//    }
 
     @GetMapping
     public String getDoors(Model model){
