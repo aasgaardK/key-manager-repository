@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,14 @@ public class KeyDao {
     public Key getKeyById(int id) {
         String query = "SELECT * FROM `door_key` WHERE Door_Key_ID = " + id;
         return jdbcTemplate.queryForObject(query, new KeyRowMapper());
+    }
+
+    public List<Key> getAvailableKeys() {
+        String query = "SELECT * FROM `door_key` \n" +
+                "WHERE `Door_Key_ID` not in \n" +
+                "(SELECT `Key_Key_ID` FROM `borrowing_status`\n" +
+                "WHERE `Date_To` is null)";
+        return jdbcTemplate.query(query, new KeyRowMapper());
     }
 
 }

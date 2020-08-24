@@ -38,15 +38,12 @@ public class KeyController {
 
 
     @GetMapping("/available")
-    public String getAvailableKeys(){
-        List<Key> outList = dao.getAvailableKeys();
-        String out = "All available keys: <br />";
-        for (Key key : outList){
-            String id = Integer.toString(key.getId());
-            out += "Next available key: ID of the key: " + id + ", code of the key: " + key.getCode() + "<br />";
-        }
-        return out;
+    public String getAvailableKeys(Model model){
+        List<Key> availableKeys = this.keyDao.getAvailableKeys();
+        model.addAttribute("availableKeyList",availableKeys);
+        return "available-keys";
     }
+
     @GetMapping("/borrus/{keyId}")
     public String getBorrowingUsersByKey(@PathVariable int keyId){
         List<User> outList = dao.getBorrowingUsersByKey(keyId);

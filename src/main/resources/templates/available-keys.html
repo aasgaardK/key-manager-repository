@@ -13,11 +13,9 @@
     <a href="/">Home</a>
 </button>
 <h1>List of available keys:</h1>
-<div>
-    <p th:text="${borrowedKeyMessage}"></p>
-</div>
+
 <table>
-    <th:block th:each="key : ${keyList}">
+    <th:block th:each="key : ${availableKeyList}">
         <tr>
             <td th:text="${key.code}"></td>
         </tr>
