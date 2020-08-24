@@ -6,5 +6,8 @@ table, th, td {
     width: 100%;
     border-color: red;
 }
+.homepage {
+    border: double;
+}
 
 
