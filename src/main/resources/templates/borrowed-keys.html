@@ -10,59 +10,19 @@
 <button>
     <a href="/">Home</a>
 </button>
-<h1 bold>User</h1>
-<h2>user:</h2>
-<table>
-    <p>user surname</p>
-    <tr>
-        <td th:text="${user.getSurname}"></td>
-    </tr>
+<button>
+    <a href="/keys">KEYS</a>
+</button>
+<button >
+    <a href="/users">USERS</a>
+</button>
 
-    <p>user name</p>
-    <tr>
-        <td th:text="${user.getName}"></td>
-    </tr>
-</table>
+<h1>List of borrowed keys:</h1>
 
-<h1>List of borrowed keys for a user:</h1>
-
-<h2>history borrowed keys for a user:</h2>
 <table>
     <th:block th:each="key : ${borrowedKeyList}">
-        <p>code of the key</p>
         <tr>
             <td th:text="${key.code}"></td>
-        </tr>
-    </th:block>
-
-    <th:block th:each="dateFrom : ${borrowedKeyList}">
-        <p>borrowed from</p>
-        <tr>
-            <td th:text="${action.dateFrom}"></td>
-        </tr>
-    </th:block>
-
-    <th:block th:each="dateTo : ${borrowedKeyList}">
-        <p>borrowed to</p>
-        <tr>
-            <td th:text="${action.dateTo}"></td>
-        </tr>
-    </th:block>
-</table>
-
-<h2>actually borrowed keys:</h2>
-<table>
-    <th:block th:each="key : ${borrowedKeyList}">
-        <p>code of the key</p>
-        <tr>
-            <td th:text="${key.code}"></td>
-        </tr>
-    </th:block>
-
-    <th:block th:each="dateFrom : ${borrowedKeyList}">
-        <p>borrowed from</p>
-        <tr>
-            <td th:text="${action.dateFrom}"></td>
         </tr>
     </th:block>
 </table>

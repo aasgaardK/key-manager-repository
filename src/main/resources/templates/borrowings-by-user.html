@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />
+</head>
+<body>
+
+<button>
+    <a href="/">Home</a>
+</button>
+<button >
+    <a href="/users">USERS</a>
+</button>
+<button>
+    <a href="/keys">KEYS</a>
+</button>
+<h1 th:text="${userMessage}"></h1>
+
+<h1>Current:</h1>
+<table>
+    <th:block th:each="borrowing : ${currentBorrowingsList}">
+        <tr>
+            <td th:text="${borrowing.key.code}"></td>
+            <td th:text="${borrowing.dateFrom}"></td>
+        </tr>
+    </th:block>
+</table>
+
+<h1>History:</h1>
+<table>
+    <th:block th:each="borrowing : ${borrowingsList}">
+        <tr>
+            <td th:text="${borrowing.key.code}"></td>
+            <td th:text="${borrowing.dateFrom}"></td>
+            <td th:text="${borrowing.dateTo}"></td>
+        </tr>
+    </th:block>
+</table>
+
+
+
+</body>
+</html>
