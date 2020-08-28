@@ -53,9 +53,9 @@ public class KeyDao {
 
     public List<Key> getBorrowedKeys() {
         String query = "SELECT * FROM `door_key` \n" +
-        "WHERE `Door_Key_ID` not in \n" +
+                "WHERE `Door_Key_ID` in \n" +
                 "(SELECT `Key_Key_ID` FROM `borrowing_status`\n" +
-                "WHERE `Date_To` IS NOT NULL)";
+                "WHERE `Date_To` IS NULL)";
         return jdbcTemplate.query(query, new KeyRowMapper());
 
 

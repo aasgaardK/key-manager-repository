@@ -45,23 +45,12 @@ public class KeyController {
         return "available-keys";
     }
 
-    @GetMapping("borrowed")
+    @GetMapping("/borrowed")
     public String getBorrowedKeys(Model model){
         List<Key> borrowedKeys = this.keyDao.getBorrowedKeys();
         model.addAttribute("borrowedKeyList", borrowedKeys);
         return "borrowed-keys";
     }
-
-//    @GetMapping("/borrus/{keyId}")
-//    public String getBorrowingUsersByKey(@PathVariable int keyId){
-//        List<User> outList = dao.getBorrowingUsersByKey(keyId);
-//        String out = "All borrowing users for this specific key: <br />";
-//        for (User user : outList){
-//            String id = Integer.toString(user.getId());
-//            out += "Next borrowing user of this key: ID of the user: " + id + ", name of the user: " + user.getName() + ", surname of the user: "+user.getSurname() + "<br />";
-//        }
-//        return out;
-//    }
 
     @GetMapping("/addKeyForm")
     public String addKeyForm(Key key){

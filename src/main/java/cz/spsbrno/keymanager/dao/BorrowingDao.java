@@ -42,7 +42,6 @@ public class BorrowingDao {
         return true;
     }
 
-    //TODO fix
     public List<Borrowing> borrowingsHistoryByUser(int userId){
         String query = "SELECT\n" +
                 "  *\n" +
@@ -51,11 +50,10 @@ public class BorrowingDao {
                 "JOIN `door_key` AS dk ON dk.`Door_Key_ID` = bs.`Key_Key_ID`\n" +
                 "JOIN `user` AS u ON u.`User_ID` = bs.`User_User_ID`\n" +
                 "WHERE\n" +
-                "  `Date_To` IS NOT NULL";
+                "  `Date_To` IS NOT NULL AND `User_ID` = " + userId;
         return jdbcTemplate.query(query,new BorrowingRowMapper());
     }
 
-    //TODO fix
     public List<Borrowing> currentBorrowingsByUser(int userId){
         String query = "SELECT\n" +
                 "  *\n" +
@@ -64,28 +62,24 @@ public class BorrowingDao {
                 "JOIN `door_key` AS dk ON dk.`Door_Key_ID` = bs.`Key_Key_ID`\n" +
                 "JOIN `user` AS u ON u.`User_ID` = bs.`User_User_ID`\n"+
                 "WHERE\n" +
-                "  `Date_To` IS NULL";
+                "  `Date_To` IS NULL AND `User_ID` = " + userId;
         return jdbcTemplate.query(query, new BorrowingRowMapper());
     }
 
-
-    //TODO fix
     public List<Borrowing> borrowersHistoryByKey(int keyId) {
         String query = "SELECT * FROM `borrowing_status` AS bs\n" +
                 "JOIN `user`AS u ON u.`User_ID` = bs.`User_User_ID`\n" +
                 "JOIN `door_key` AS dk ON `Door_Key_ID` = bs.`Key_Key_ID`\n" +
-                "WHERE `Date_To` IS NOT NULL";
-        return jdbcTemplate.query(query,new BorrowersRowMapper());
+                "WHERE `Date_To` IS NOT NULL AND `Door_Key_ID` = " + keyId;
+        return jdbcTemplate.query(query,new BorrowingRowMapper());
     }
 
-
-    //TODO fix
     public List<Borrowing> currentBorrowersByKey(int keyId) {
         String query = "SELECT * FROM `borrowing_status` AS bs\n" +
                 "JOIN `user`AS u ON u.`User_ID` = bs.`User_User_ID`\n" +
                 "JOIN `door_key` AS dk ON `Door_Key_ID` = bs.`Key_Key_ID`\n" +
-                "WHERE `Date_To` IS NULL";
-        return jdbcTemplate.query(query, new BorrowersRowMapper());
+                "WHERE `Date_To` IS NULL AND `Door_Key_ID` = " + keyId;
+        return jdbcTemplate.query(query, new BorrowingRowMapper());
     }
 
 }

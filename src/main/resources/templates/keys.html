@@ -5,7 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />
 </head>
-<body>
 <button>
     <a href="/keys/addKeyForm">Create Key</a>
 </button>
@@ -13,19 +12,6 @@
     <a href="/keys/available">Available Keys</a>
 </button>
 <button>
-    <a href="/keys">KEYS</a>
-</button>
-<button>
-    <a href="/users">USERS</a>
-</button>
-<button>
-    <a href="/borrowings-by-key">borrowings by key</a>
-<!--    nefunguje-->
-</button>
-<button>
-<!-- FIX dava to asi chybna data z databaze, nebo available keys nebudou spravne
-protoze klic C1234 s id7 a klic PS29C s id8 vubec nejsou jednak zapsane v tabulce borrowed-status a jednak se vylistovavaji
-jak v seznamu available keys tak v seznamu boroowed keys a to zaroven neni mozne-->
     <a href="/keys/borrowed">Borrowed Keys</a>
 </button>
 
@@ -40,6 +26,11 @@ jak v seznamu available keys tak v seznamu boroowed keys a to zaroven neni mozne
     <th:block th:each="key : ${keyList}">
         <tr>
             <td th:text="${key.code}"></td>
+            <td>
+                <button>
+                    <a th:href="@{/borrowings/key/{id}(id=${key.id})}">Borrowings</a>
+                </button>
+            </td>
         </tr>
     </th:block>
 </table>
