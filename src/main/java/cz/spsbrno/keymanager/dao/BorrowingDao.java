@@ -1,6 +1,7 @@
 package cz.spsbrno.keymanager.dao;
 
 import cz.spsbrno.keymanager.dto.Borrowing;
+import cz.spsbrno.keymanager.dto.Key;
 import cz.spsbrno.keymanager.exception.InvalidOperationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -31,6 +32,12 @@ public class BorrowingDao {
         params.put("Date_From", new Timestamp(System.currentTimeMillis()));
 
         simpleJdbcInsert.execute(params);
+
+        putKeyBackToPlace(keyId);
+    }
+
+    public void putKeyBackToPlace(int keyId){
+        String query = "UPDATE Borrowing_Status SET Date_To = SYSDATETIME() WHERE Key_Key_ID = " + keyId;
     }
 
     private boolean isKeyAvailable(int keyId) {
@@ -81,5 +88,6 @@ public class BorrowingDao {
                 "WHERE `Date_To` IS NULL AND `Door_Key_ID` = " + keyId;
         return jdbcTemplate.query(query, new BorrowingRowMapper());
     }
+
 
 }

@@ -3,36 +3,67 @@
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />
 
 </head>
-<body class="homepage">
-<div>
-<p><h1 class="center" id="h1">Welcome in the Key Manager System</h1></p>
-<div class="grid-container" >
-    <div class="item1">
+<body>
+<header>
+    <h2>Welcome in the Key Manager System</h2>
+</header>
+<section>
+    <nav>
+        <ul>
+            <li>
+                <div>
     <button >
-        <p id="p2">
-            <a href="/users">USERS</a>
-        </p>
-    </button>
-    </div>
-    <div class="item2">
-    <button>
-        <p id="p3">
-            <a href="/keys">KEYS</a></button>
-        </p>
-    </button>
-    </div>
-    <div class="item3">
-    <button>
-        <p id="p4">
-            <a href="/doors">DOORS</a>
-        </p>
-    </button>
-    </div>
 
-</div>
-</div>
+            <a href="/users">USERS</a>
+
+    </button>
+                </div>
+            </li>
+
+            <li>
+                <div>
+    <button>
+
+            <a href="/keys">KEYS</a></button>
+
+    </button>
+                </div>
+            </li>
+
+            <li>
+                <div>
+    <button>
+
+            <a href="/doors">DOORS</a>
+    </button>
+                </div>
+            </li>
+
+        </ul>
+    </nav>
+
+    <article>
+        <h1>Enter informations</h1>
+        <p>My version of the school project.
+            Used thymeleaf, spring boot, maven.
+            Used programming and scripting languages: java, sql, html, thymeleaf, css.
+            PhpMyAdmin database, back-end developed in IntelliJ and Atom environments.
+            The database was created in the Workbench environment.
+            Testing took place in the Postman environment and also directly in the browser.
+            Wamp used locally for development and testing.
+        </p>
+
+    </article>
+
+</section>
+
+<footer>
+    <p>Footer</p>
+</footer>
+
 </body>
 </html>

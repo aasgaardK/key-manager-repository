@@ -18,6 +18,7 @@ public class BorrowingController {
     private final UserDao userDao;
     private final KeyDao keyDao;
 
+
     public BorrowingController(BorrowingDao borrowingDao, UserDao userDao, KeyDao keyDao) {
         this.borrowingDao = borrowingDao;
         this.userDao = userDao;
@@ -40,6 +41,15 @@ public class BorrowingController {
         Key key= this.keyDao.getKeyById(keyId);
         model.addAttribute("keyMessage", "Borrowers for key " + key.getCode());
         return "borrowings-by-key";
+    }
+
+    @GetMapping("/borrowings/{keyId}")
+    public String borrowKey(@PathVariable int keyId,  Model model) {
+        model.addAttribute("currentBorrowersList", this.borrowingDao.currentBorrowersByKey(keyId));
+        model.addAttribute("borrowersList", this.borrowingDao.borrowersHistoryByKey(keyId));
+        Key keyCode = new Key();
+        Key key = this.keyDao.getKeyById(keyId);
+        return "borrow-key-form";
     }
 
 

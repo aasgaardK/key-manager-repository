@@ -20,6 +20,7 @@ public class BorrowingRowMapper implements RowMapper<Borrowing> {
         borrowing.setUser(user);
         Key key = new Key(rs.getInt("Key_Key_ID"), rs.getString("Code"));
         borrowing.setKey(key);
+
         return borrowing;
     }
 }

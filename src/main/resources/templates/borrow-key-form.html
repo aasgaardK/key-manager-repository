@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html xmlns:text-align="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />
+
+</head>
+<body>
+<header>
+    <h2>borrow key</h2>
+</header>
+
+<section>
+    <nav>
+        <ul>
+            <li>
+                <div>
+                   <article>
+                       <div>
+                           <h3>Select a key please</h3>
+                       <form  action="#" th:action="@{/keys}" th:object="${borrowing}" method="post">
+                           <th:block th:each="key : ${availableKeyList}">
+
+                               <label for="code">Code</label>
+                               <input type="checkbox" th:field="*{code}" id="code" placeholder="Code">
+
+
+                           </th:block>
+
+                           <input type="submit" value="Send">
+
+                           <div>
+                               <input type="submit" name="submit" value="Submit"/>
+                           </div>
+                       </form>
+                       </div>
+
+                       <div>
+                           <h3>Check your name please</h3>
+                           <form action="#" th:action="@{/users}" th:object="${borrowing}" method="post">
+
+                               <th:block th:each="user : ${userList}">
+
+                                   <label for="name">Name</label>
+                                   <input type="checkbox" th:field="*{name}" id="name" placeholder="Name">
+                                   <label for="surname">Surname</label>
+                                   <input type="checkbox" th:field="*{surname}" id="surname" placeholder="Surname">
+
+                               </th:block>
+
+                               <input type="submit" value="Send">
+                               <div>
+                                   <input type="submit" name="submit" value="Submit"/>
+                               </div>
+                           </form>
+                       </div>
+                   </article>
+                    The currently available keys are displayed here.
+                    To borrow a key from the menu, please select your username
+                    and check the key you wish to borrow.
+                </div>
+            </li>
+
+        </ul>
+    </nav>
+
+</section>
+
+<footer>
+    <p><button>
+        <a href="/">Home</a>
+    </button></p>
+</footer>
+
+</body>
+</html>
