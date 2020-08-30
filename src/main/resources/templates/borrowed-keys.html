@@ -10,22 +10,34 @@
 <button>
     <a href="/">Home</a>
 </button>
+
 <button>
-    <a href="/keys">KEYS</a>
+    <a th:href="@{/borrowings/key/{id}/borrow(id=${key.id})}">Borrowings</a>
 </button>
-<button >
-    <a href="/users">USERS</a>
-</button>
+
 
 <h1>List of borrowed keys:</h1>
-
+<p th:text="${borrowedKeyMessage}"></p>
 <table>
-    <th:block th:each="key : ${borrowedKeyList}">
-        <tr>
+    <thead>
+    <tr>
+        <td>Code:</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:block th:each="key : ${borrowedKeyList}">
             <td th:text="${key.code}"></td>
+            <td>
+                <button>
+                    <a th:href="@{/borrowings/key/{id}/return(id=${key.id})}">Return key</a>
+                </button>
+            </td>
         </tr>
-    </th:block>
+    </trth:block>
+    </tbody>
 </table>
+
+
 
 </body>
 </html>

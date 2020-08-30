@@ -14,23 +14,38 @@
 
 <h1>Current:</h1>
 <table>
-    <th:block th:each="borrowing : ${currentBorrowingsList}">
+    <thead>
         <tr>
+            <td>Code:</td>
+            <td>Borrowed from:</td>
+        </tr>
+    </thead>
+    <tbody>
+    <tr th:block th:each="borrowing : ${currentBorrowingsList}">
             <td th:text="${borrowing.key.code}"></td>
             <td th:text="${borrowing.dateFrom}"></td>
         </tr>
-    </th:block>
+    </trth:block>
+    </tbody>
 </table>
 
 <h1>History:</h1>
 <table>
-    <th:block th:each="borrowing : ${borrowingsList}">
+    <thead>
         <tr>
+            <td>Code:</td>
+            <td>Borrowed from:</td>
+            <td>Returned:</td>
+        </tr>
+    </thead>
+    <tbody>
+    <tr th:block th:each="borrowing : ${borrowingsList}">
             <td th:text="${borrowing.key.code}"></td>
             <td th:text="${borrowing.dateFrom}"></td>
             <td th:text="${borrowing.dateTo}"></td>
         </tr>
-    </th:block>
+    </trth:block>
+    </tbody>
 </table>
 
 </body>

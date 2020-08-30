@@ -1,6 +1,5 @@
 package cz.spsbrno.keymanager.controller;
 
-import cz.spsbrno.keymanager.dao.RelationalDataAccess;
 import cz.spsbrno.keymanager.dao.UserDao;
 import cz.spsbrno.keymanager.dto.Key;
 import cz.spsbrno.keymanager.dto.User;
@@ -13,11 +12,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/users")
 public class UserController {
-    private final RelationalDataAccess dao;
     private final UserDao userDao;
 
-    public UserController(RelationalDataAccess dao, UserDao userDao) {
-        this.dao = dao;
+    public UserController( UserDao userDao) {
         this.userDao = userDao;
     }
 
@@ -28,37 +25,28 @@ public class UserController {
                 "New user " + createdUser.getName() + " " + createdUser.getSurname() + " was added to database.");
         return getUsers(model);
     }
+//    @GetMapping("/delete")
+//    public String deleteUser(User user, Model model) {
+//        User deletedUser = userDao.deleteUser(user);
+//        model.addAttribute("deletedUserMessage",
+//                "User " + deletedUser.getName() + " " +deletedUser.getSurname()  + " was deleted from database. ");
+//        return getUsers(model);
+//    }
 
     @GetMapping("/addUserForm")
     public String addUserForm(User user){
         return "add-user";
     }
 
+    @GetMapping("/deleteUserForm")
+    public String deleteUserForm(User user){
+        return "delete-user";
+    }
+
     @GetMapping("/{userId}")
     public User getUserById(@PathVariable int userId) {
         User user = userDao.getUserById(userId);
         return user;
-    }
-//    @GetMapping("/borrke/{userId}")
-//    public String getBorrowedKeysToUser(@PathVariable int userId){
-//        List<Key> outList = dao.getBorrowedKeysToUser(userId);
-//    String out = "All borrowed keys by this user: <br />";
-//        for (Key key : outList){
-//        String id = Integer.toString(key.getId());
-//        out += "Next borrowed key by this user: ID of the key: " + id + ", code of the key: " + key.getCode() + "<br />";
-//    }
-//        return out;
-//}
-
-    @PostMapping("/{userId}/keys/borrow/{keyId}")
-    public void borrowKey(@PathVariable int userId, @PathVariable int keyId) {
-        dao.createBorrowingStatus(userId, keyId);
-
-    }
-
-    @PostMapping("/{userId}/keys/return/{keyId}")
-    public void returnKey(@PathVariable int userId, @PathVariable int keyId) {
-        dao.setDateToInBorrowingStatus(keyId, userId);
     }
 
     @GetMapping

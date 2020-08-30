@@ -14,25 +14,42 @@
 
 <h1>Current:</h1>
 <table>
-    <th:block th:each="borrowing : ${currentBorrowersList}">
+    <thead>
         <tr>
+            <td>Name:</td>
+            <td>Surname:</td>
+            <td>Borrowed from:</td>
+        </tr>
+    </thead>
+    <tbody>
+    <tr th:block th:each="borrowing : ${currentBorrowersList}">
             <td th:text="${borrowing.user.name}"></td>
             <td th:text="${borrowing.user.surname}"></td>
             <td th:text="${borrowing.dateFrom}"></td>
         </tr>
-    </th:block>
+    </trth:block>
+    </tbody>
 </table>
 
 <h1>History:</h1>
 <table>
-    <th:block th:each="borrowing : ${borrowersList}">
+    <thead>
         <tr>
+            <td>Name:</td>
+            <td>Surname:</td>
+            <td>Borrowed from:</td>
+            <td>Returned:</td>
+        </tr>
+    </thead>
+    <tbody>
+    <tr th:block th:each="borrowing : ${borrowersList}">
             <td th:text="${borrowing.user.name}"></td>
             <td th:text="${borrowing.user.surname}"></td>
             <td th:text="${borrowing.dateFrom}"></td>
             <td th:text="${borrowing.dateTo}"></td>
         </tr>
-    </th:block>
+    </trth:block>
+    </tbody>
 </table>
 
 

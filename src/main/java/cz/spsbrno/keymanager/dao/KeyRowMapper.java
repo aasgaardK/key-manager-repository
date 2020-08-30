@@ -13,8 +13,6 @@ public class KeyRowMapper implements RowMapper<Key> {
 
         key.setId(rs.getInt("Door_Key_ID"));
         key.setCode(rs.getString("Code"));
-
-
         return key;
     }
 }

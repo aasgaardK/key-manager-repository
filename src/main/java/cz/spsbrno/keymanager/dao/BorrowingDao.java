@@ -1,13 +1,14 @@
 package cz.spsbrno.keymanager.dao;
 
 import cz.spsbrno.keymanager.dto.Borrowing;
-import cz.spsbrno.keymanager.dto.Key;
-import cz.spsbrno.keymanager.exception.InvalidOperationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class BorrowingDao {
 
     public void borrowKey(int userId, int keyId) {
         if(!isKeyAvailable(keyId)){
-            throw new InvalidOperationException("key with id " + keyId + " is already borrowed");
+            return;
         }
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getDataSource()).withTableName("Borrowing_Status")
                 .usingGeneratedKeyColumns("Borrowing_Status_ID");
@@ -33,11 +34,11 @@ public class BorrowingDao {
 
         simpleJdbcInsert.execute(params);
 
-        putKeyBackToPlace(keyId);
     }
 
-    public void putKeyBackToPlace(int keyId){
-        String query = "UPDATE Borrowing_Status SET Date_To = SYSDATETIME() WHERE Key_Key_ID = " + keyId;
+    public void finishBorrowing(int keyId){
+        String query = "UPDATE Borrowing_Status SET Date_To = ? WHERE Key_Key_ID = ? AND Date_To IS NULL";
+        jdbcTemplate.update(query,LocalDateTime.now(), keyId);
     }
 
     private boolean isKeyAvailable(int keyId) {

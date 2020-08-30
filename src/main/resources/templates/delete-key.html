@@ -9,15 +9,13 @@
 <button>
     <a href="/">Home</a>
 </button>
-<button>
-    <a href="/keys">KEYS</a>
-</button>
-<button>
-    <a href="/users">USERS</a>
-</button>
-<h1>please choose key U wish to borrow:</h1>
-<!--neco rolovaciho asi, on si zatrhne co chce pujcit, to se musi oddelat z available keys, pridat se do borrowed keys a jeste nekam???-->
 
+<h1>please fill in data for deleting a key from the database:</h1>
+<form action="#" th:action="@{/keys/delete}" th:object="${key}" method="get">
+    <label for="code">Code</label>
+    <input type="text" th:field="*{code}" id="code" placeholder="Code">
+    <input type="submit" value="Send">
+</form>
 
 </body>
 </html>

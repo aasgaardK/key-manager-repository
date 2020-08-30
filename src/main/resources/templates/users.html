@@ -10,25 +10,38 @@
     <a href="/users/addUserForm">Create User</a>
 </button>
 <button>
+    <a href="/users/deleteUserForm">Delete User</a>
+</button>
+<button>
     <a href="/">Home</a>
 </button>
 
 <h1>List of users:</h1>
-<div>
+
     <p th:text="${createdUserMessage}"></p>
-</div>
+    <p th:text="${deletedUserMessage}"></p>
 <table>
-    <th:block th:each="user : ${userList}">
+
+    <thead>
         <tr>
+            <td>Name:</td>
+            <td>Surname:</td>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr th:block th:each="user : ${userList}">
+
             <td th:text="${user.name}"></td>
             <td th:text="${user.surname}"></td>
-            <td>
-                <button>
-                    <a th:href="@{/borrowings/user/{id}(id=${user.id})}">Borrowings</a>
-                </button>
-            </td>
-        </tr>
-    </th:block>
+                <td>
+                    <button>
+                        <a th:href="@{/borrowings/user/{id}(id=${user.id})}">Borrowings</a>
+                    </button>
+                </td>
+            <tr/>
+        </trth:block>
+    </tbody>
 </table>
 </body>
 </html>

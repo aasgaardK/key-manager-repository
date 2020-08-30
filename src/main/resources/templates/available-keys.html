@@ -7,25 +7,27 @@
 </head>
 <body>
 <button>
-    <a href="/keys/borrowKeyForm">Borrow Key</a>
+    <a href="/borrowings/borrowKeyForm">Borrow Key</a>
 </button>
 <button>
     <a href="/">Home</a>
 </button>
-<button>
-    <a href="/keys">KEYS</a>
-</button>
-<button >
-    <a href="/users">USERS</a>
-</button>
-<h1>List of available keys:</h1>
 
+
+<h1>List of available keys:</h1>
+<p th:text="${returnedKeyMessage}"></p>
 <table>
-    <th:block th:each="key : ${availableKeyList}">
-        <tr>
+    <thead>
+    <tr>
+        <td>Code:</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:block th:each="key : ${availableKeyList}">
             <td th:text="${key.code}"></td>
         </tr>
-    </th:block>
+    </trth:block>
+    </tbody>
 </table>
 </body>
 </html>

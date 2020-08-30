@@ -10,24 +10,29 @@
     <a href="/doors/addDoorForm">Create Door</a>
 </button>
 <button>
+    <a href="/doors/deleteDoorForm">Delete Door</a>
+</button>
+<button>
     <a href="/">Home</a>
 </button>
-<button>
-    <a href="/keys">KEYS</a>
-</button>
-<button>
-    <a href="/users">USERS</a>
-</button>
+
 <h1>List of doors:</h1>
-<div>
+
     <p th:text="${createdDoorMessage}"></p>
-</div>
+    <p th:text="${deletedDoorMessage}"></p>
+
 <table class="test-table">
-    <th:block th:each="door : ${doorList}">
-        <tr>
+    <thead>
+         <tr>
+            <td>Code:</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:block th:each="door : ${doorList}">
             <td th:text="${door.code}"></td>
         </tr>
-    </th:block>
+    </trth:block>
+    </tbody>
 </table>
 </body>
 </html>

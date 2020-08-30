@@ -3,13 +3,13 @@ package cz.spsbrno.keymanager.controller;
 import cz.spsbrno.keymanager.dao.BorrowingDao;
 import cz.spsbrno.keymanager.dao.KeyDao;
 import cz.spsbrno.keymanager.dao.UserDao;
+import cz.spsbrno.keymanager.dto.Borrowing;
+import cz.spsbrno.keymanager.dto.BorrowingCreation;
 import cz.spsbrno.keymanager.dto.Key;
 import cz.spsbrno.keymanager.dto.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/borrowings")
@@ -51,6 +51,31 @@ public class BorrowingController {
         Key key = this.keyDao.getKeyById(keyId);
         return "borrow-key-form";
     }
+
+    @GetMapping("/borrowKeyForm")
+    public String borrowKeyForm(BorrowingCreation borrowingCreation){
+        return "borrow-key-form";
+    }
+
+    @PostMapping("/borrow")
+    public String borrowKey(BorrowingCreation borrowingCreation, Model model){
+        this.borrowingDao.borrowKey(Integer.parseInt(borrowingCreation.getUserId()), Integer.parseInt(borrowingCreation.getKeyId()));
+        model.addAttribute("borrowedKeyList", this.keyDao.getBorrowedKeys());
+        model.addAttribute("borrowedKeyMessage", "You have borrowed a key ");// + this.keyDao.getKeyById(keyId));
+        return "borrowed-keys";
+        //i would have added a {keyId} but don't know if it was right
+        //method works in a db but feiles with the borrowed-keys template
+
+    }
+
+    @PostMapping("/key/{keyId}/return") //nebo GetMapping
+    public String returnKey(@PathVariable int keyId, Model model){
+        this.borrowingDao.finishBorrowing(keyId);
+        model.addAttribute("borrowedKeyList",this.keyDao.getBorrowedKeys());
+        model.addAttribute("returnedKeyMessage", "The key " + keyDao.getKeyById(keyId) + " was returned to the database");
+        return "available-keys";
+    }
+
 
 
 }

@@ -1,9 +1,8 @@
 package cz.spsbrno.keymanager.controller;
 
 import cz.spsbrno.keymanager.dao.DoorDao;
-import cz.spsbrno.keymanager.dao.RelationalDataAccess;
 import cz.spsbrno.keymanager.dto.Door;
-import cz.spsbrno.keymanager.dto.User;
+import cz.spsbrno.keymanager.dto.Key;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +12,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/doors")
 public class DoorController {
-    private final RelationalDataAccess dao;
     private final DoorDao doorDao;
 
-    public DoorController(RelationalDataAccess dao, DoorDao doorDao) {
-        this.dao = dao;
+    public DoorController( DoorDao doorDao) {
         this.doorDao = doorDao;
     }
 
@@ -45,6 +42,11 @@ public class DoorController {
     @GetMapping("/addDoorForm")
     public String addDoorForm(Door door){
         return "add-door";
+    }
+
+    @GetMapping("/deleteDoorForm")
+    public String deleteDoorForm(Door door){
+        return "delete-door";
     }
 
 

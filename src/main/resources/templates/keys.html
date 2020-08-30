@@ -9,6 +9,9 @@
     <a href="/keys/addKeyForm">Create Key</a>
 </button>
 <button>
+    <a href="/keys/deleteKeyForm">Delete Key</a>
+</button>
+<button>
     <a href="/keys/available">Available Keys</a>
 </button>
 <button>
@@ -19,12 +22,20 @@
     <a href="/">Home</a>
 </button>
 <h1>List of keys:</h1>
-<div>
+
     <p th:text="${createdKeyMessage}"></p>
-</div>
+    <p th:text="${deletedKeyMessage}"></p>
+
+
+
 <table>
-    <th:block th:each="key : ${keyList}">
+    <thead>
         <tr>
+            <td>Code:</td>
+         </tr>
+    </thead>
+    <tbody>
+        <tr th:block th:each="key : ${keyList}">
             <td th:text="${key.code}"></td>
             <td>
                 <button>
@@ -32,7 +43,8 @@
                 </button>
             </td>
         </tr>
-    </th:block>
+        </trth:block>
+    </tbody>
 </table>
 </body>
 </html>

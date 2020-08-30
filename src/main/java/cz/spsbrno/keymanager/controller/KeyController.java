@@ -1,11 +1,7 @@
 package cz.spsbrno.keymanager.controller;
 
-import cz.spsbrno.keymanager.dao.DoorDao;
 import cz.spsbrno.keymanager.dao.KeyDao;
-import cz.spsbrno.keymanager.dao.RelationalDataAccess;
-import cz.spsbrno.keymanager.dto.Door;
 import cz.spsbrno.keymanager.dto.Key;
-import cz.spsbrno.keymanager.dto.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +11,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/keys")
 public class KeyController {
-    private final RelationalDataAccess dao;
     private final KeyDao keyDao;
 
-    public KeyController(RelationalDataAccess dao, KeyDao keyDao) {
-        this.dao = dao;
+    public KeyController( KeyDao keyDao) {
         this.keyDao = keyDao;
     }
 
@@ -30,6 +24,15 @@ public class KeyController {
                 "New key " + createdKey.getCode() + " was added to database. ");
         return getKeys(model);
     }
+
+//    @GetMapping("/delete")
+//    public String deleteKey(Key key, Model model) {
+//        Key deletedKey = keyDao.deleteKey(key);
+//        model.addAttribute("deletedKeyMessage",
+//                "Key " + deletedKey.getCode() + " was deleted from database. ");
+//        return getKeys(model);
+//    }
+
 
     @GetMapping("/{keyId}")
     public Key getKeyById(@PathVariable int keyId) {
@@ -55,6 +58,11 @@ public class KeyController {
     @GetMapping("/addKeyForm")
     public String addKeyForm(Key key){
         return "add-key";
+    }
+
+    @GetMapping("/deleteKeyForm")
+    public String deleteKeyForm(Key key){
+        return "delete-key";
     }
 
     @GetMapping
