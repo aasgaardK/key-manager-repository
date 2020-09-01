@@ -59,20 +59,20 @@ public class BorrowingController {
 
     @PostMapping("/borrow")
     public String borrowKey(BorrowingCreation borrowingCreation, Model model){
-        this.borrowingDao.borrowKey(Integer.parseInt(borrowingCreation.getUserId()), Integer.parseInt(borrowingCreation.getKeyId()));
+        int keyId = Integer.parseInt(borrowingCreation.getKeyId());
+        int userId = Integer.parseInt(borrowingCreation.getUserId());
+        this.borrowingDao.borrowKey(userId, keyId);
         model.addAttribute("borrowedKeyList", this.keyDao.getBorrowedKeys());
-        model.addAttribute("borrowedKeyMessage", "You have borrowed a key ");// + this.keyDao.getKeyById(keyId));
+        model.addAttribute("borrowedKeyMessage", "You have borrowed the key " + this.keyDao.getKeyById(keyId).getCode());
         return "borrowed-keys";
-        //i would have added a {keyId} but don't know if it was right
-        //method works in a db but feiles with the borrowed-keys template
 
     }
 
-    @PostMapping("/key/{keyId}/return") //nebo GetMapping
+    @GetMapping("/key/{keyId}/return")
     public String returnKey(@PathVariable int keyId, Model model){
         this.borrowingDao.finishBorrowing(keyId);
-        model.addAttribute("borrowedKeyList",this.keyDao.getBorrowedKeys());
-        model.addAttribute("returnedKeyMessage", "The key " + keyDao.getKeyById(keyId) + " was returned to the database");
+        model.addAttribute("availableKeyList",this.keyDao.getAvailableKeys());
+        model.addAttribute("returnedKeyMessage", "The key " + keyDao.getKeyById(keyId).getCode() + " was returned");
         return "available-keys";
     }
 
