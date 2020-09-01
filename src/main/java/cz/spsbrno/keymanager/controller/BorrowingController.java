@@ -3,13 +3,13 @@ package cz.spsbrno.keymanager.controller;
 import cz.spsbrno.keymanager.dao.BorrowingDao;
 import cz.spsbrno.keymanager.dao.KeyDao;
 import cz.spsbrno.keymanager.dao.UserDao;
-import cz.spsbrno.keymanager.dto.Borrowing;
-import cz.spsbrno.keymanager.dto.BorrowingCreation;
-import cz.spsbrno.keymanager.dto.Key;
-import cz.spsbrno.keymanager.dto.User;
+import cz.spsbrno.keymanager.dto.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/borrowings")
@@ -43,17 +43,17 @@ public class BorrowingController {
         return "borrowings-by-key";
     }
 
-    @GetMapping("/borrowings/{keyId}")
-    public String borrowKey(@PathVariable int keyId,  Model model) {
-        model.addAttribute("currentBorrowersList", this.borrowingDao.currentBorrowersByKey(keyId));
-        model.addAttribute("borrowersList", this.borrowingDao.borrowersHistoryByKey(keyId));
-        Key keyCode = new Key();
-        Key key = this.keyDao.getKeyById(keyId);
-        return "borrow-key-form";
-    }
-
     @GetMapping("/borrowKeyForm")
-    public String borrowKeyForm(BorrowingCreation borrowingCreation){
+    public String borrowKeyForm(BorrowingCreation borrowingCreation, Model model) {
+        List<UserFullName> usersWithFullName = this.userDao
+                .getAll()
+                .stream()
+                .map(user -> new UserFullName(user.getId(), user.getName() + " " + user.getSurname()))
+                .collect(Collectors.toList());
+
+
+        model.addAttribute("userList", usersWithFullName);
+        model.addAttribute("availableKeyList", this.keyDao.getAvailableKeys());
         return "borrow-key-form";
     }
 

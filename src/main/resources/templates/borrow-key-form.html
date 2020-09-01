@@ -13,9 +13,13 @@
 <h1>Please fill in user data and the key you wish to borrow:</h1>
 <form action="#" th:action="@{/borrowings/borrow}" th:object="${borrowingCreation}" method="post">
     <label for="userId">User</label>
-    <input type="text" th:field="*{userId}" id="userId" placeholder="">
+    <select id="userId" name="userId">
+        <option th:each="user : ${userList}" th:value="${user.id}" th:text="${user.fullname}"></option>
+    </select>
     <label for="keyId">Key</label>
-    <input type="text" th:field="*{keyId}" id="keyId" placeholder="">
+    <select id="keyId" name="keyId">
+        <option th:each="key : ${availableKeyList}" th:value="${key.id}" th:text="${key.code}"></option>
+    </select>
     <input type="submit" value="borrow">
 </form>
 
